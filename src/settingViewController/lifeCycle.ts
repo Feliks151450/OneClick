@@ -10,7 +10,7 @@ const viewDidLoad = () => {
 const viewWillAppear = () => {
     self.tableView.reloadData()
     self.tableView.backgroundColor = Application.sharedInstance().defaultNotebookColor
-    self.textColor = Application.sharedInstance().currentTheme == "Gray" ? UIColor.whiteColor() : UIColor.blackColor()
+    self.textColor = Application.sharedInstance().currentTheme == "Blue" ? UIColor.whiteColor() : UIColor.blackColor()
 }
 
 export default {

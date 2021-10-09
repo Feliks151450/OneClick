@@ -1,5 +1,5 @@
 import { actions } from "addon"
-import { layoutViewController } from "jsExtension/switchPanel"
+import { layoutViewController} from "jsExtension/switchPanel"
 import { profile } from "profile"
 import { getNoteById, getSelectNodes, RefreshAfterDBChange, undoGrouping } from "utils/note"
 import { delayBreak, log, showHUD } from "utils/common"
@@ -34,13 +34,13 @@ const onButtonClick: eventHandler = ({ userInfo }) => {
 
 const onSwitchChange: eventHandler = ({ userInfo }) => {
   profile[userInfo.key] = userInfo.status
-  switch (userInfo.key) {
-    case "rightMode":
+  // switch (userInfo.key) {
+  //   case "rightMode":
       layoutViewController()
-      break
-    case "copyMode":
-      showHUD("切换到 Copy 模式")
-  }
+  //     break
+  //   case "copyMode":
+  //     showHUD("切换到 Copy 模式")
+  // }
 }
 
 const onInputOver: eventHandler = ({ userInfo }) => {
@@ -53,9 +53,29 @@ const onInputOver: eventHandler = ({ userInfo }) => {
 // 选择文本
 const onPopupMenuOnSelection: eventHandler = ({ userInfo }) => {
   log("选中了文字", "action")
+  //选中后复制到特定剪贴板
+  const text = userInfo.documentController.selectionText
+  const location:string = userInfo.winRect
+  const str = location.split(",")
+  // showHUD(str[0].substr(2,20))
+  const strLength = str[1].length
+  // showHUD(str[1].substr(0,strLength-1))
+  // showHUD(location.substr(2,3)+","+location.substr(21,4))
+  profile.locationX = Number(str[0].substr(2,20))
+  profile.locationY = Number(str[1].substr(0,strLength-1))
+  // var pasteBoard = UIPasteboard.generalPasteboard()
+  // var pasteBoard = UIPasteboard.pasteboardWithUniqueName()
+  // const text_old = pasteBoard.string
+  // const url = "eudic://dict/"+text
+  // pasteBoard.URL = NSURL.URLWithString(encodeURI(url))
+  // textSelected = text
+  // showHUD(textSelected)
+  // if(text_old){
+  // pasteBoard.string = text_old
+  // }
+  profile.textSelected = text
   // 选中文字不会触发矫正，所以可能是乱码
   if (profile.on && profile.selectTextOn) {
-    const text = userInfo.documentController.selectionText
     if (text) copySearch({
       text
     })
@@ -78,19 +98,28 @@ const onActiveDigestNote: eventHandler = async ({ userInfo }) => {
 }
 
 const onPopupMenuOnNote: eventHandler = ({ userInfo }) => {
-  if (isClickCard) {
-    isClickCard = false
-    return
-  }
-  log("点击了摘录", "action")
-  if (profile.on && profile.clickExcerptOn) {
-    const note = <MbBookNote>userInfo.note
-    // 必然存在一个，否则不可能存在此摘录
-    const text = note.excerptText ?? note.noteTitle
-    copySearch({
-      text
-    })
-  }
+  // if (isClickCard) {
+  //   isClickCard = false
+  //   return
+  // }
+  // log("点击了摘录", "action")
+  // if (profile.on && profile.clickExcerptOn) {
+  //   const note = <MbBookNote>userInfo.note
+  //   // 必然存在一个，否则不可能存在此摘录
+  //   const text = note.excerptText ?? note.noteTitle
+  //   copySearch({
+  //     text
+  //   })
+  // }
+  // showHUD(userInfo.note)
+  // actions[userInfo.key]({
+  //   note: userInfo.note,
+  // })
+  const note = <MbBookNote>userInfo.note
+  profile.noteId = note.noteId
+  // showHUD(note.noteId)
+  // const test:string = note.noteId
+  // RefreshAfterDBChange()
 }
 
 // 有关摘录处理的功能请直接开发 ohmymn 插件，避免冲突

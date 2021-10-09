@@ -22,6 +22,7 @@ declare global {
     selectionStyle: UITableViewCellAccessoryTypeStyle;
     accessoryType: UITableViewCellSelectionStyle;
 
+
     setSelected(selected: boolean, animated: boolean): void
     static makeWithStyleReuseIdentifier(style: UITableViewCellStyle, reuseIdentifier: string): UITableViewCell
   }

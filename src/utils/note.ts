@@ -1,5 +1,5 @@
 import { postNotification } from "./common"
-
+import { showHUD } from "utils/common"
 /**
  * 获取选中的卡片
  */
@@ -8,6 +8,16 @@ const getSelectNodes = (): MbBookNote[] => {
   if (MindMapNodes) return MindMapNodes.map(item => item.note.note)
   else return []
 }
+/**
+ * 获取选中的文字
+ */
+// const getSelectText = (): string => {
+//   showHUD("123")
+//   const text = self.DocumentController.selectionText
+//   showHUD(text)
+//   return text
+// }
+
 
 /**
  * 获取卡片中的所有摘录
@@ -26,6 +36,11 @@ const excerptNotes = (node: MbBookNote): MbBookNote[] => {
 const getNoteById = (noteid: string): MbBookNote => {
   return Database.sharedInstance().getNoteById(noteid)!
 }
+
+const getMediaByHash = (hash: string): NSData => {
+  return Database.sharedInstance().getMediaByHash(hash)!
+ }
+
 
 /**
  * 可撤销的动作，所有修改数据的动作都应该用这个方法包裹
@@ -84,5 +99,7 @@ export {
   getCommentIndex,
   getNoteById,
   RefreshAfterDBChange,
-  getAllText
+  getAllText,
+  getMediaByHash
+  // getSelectText
 }

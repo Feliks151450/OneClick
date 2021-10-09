@@ -42,8 +42,10 @@ const tableViewCellForRowAtIndexPath = (tableView: UITableView, indexPath: NSInd
         }
         case cellViewType.button: case cellViewType.buttonWithInput: {
             const cell = UITableViewCell.makeWithStyleReuseIdentifier(0, 'ButtonCellID')
-            cell.textLabel.font = UIFont.systemFontOfSize(16)
+            cell.textLabel.font = UIFont.systemFontOfSize(17)
             cell.textLabel.textColor = self.textColor
+            cell.textLabel.lineBreakMode = 0
+            cell.textLabel.textAlignment = 0
             cell.selectionStyle = row.key == "space" ? 0 : 1
             cell.textLabel.text = row.label
             return cell
@@ -52,7 +54,7 @@ const tableViewCellForRowAtIndexPath = (tableView: UITableView, indexPath: NSInd
             const cell = UITableViewCell.makeWithStyleReuseIdentifier(0, 'SwitchCellID')
             cell.selectionStyle = 0
             cell.textLabel.text = row.label
-            cell.textLabel.font = UIFont.systemFontOfSize(16)
+            cell.textLabel.font = UIFont.systemFontOfSize(15)
             cell.textLabel.textColor = self.textColor
             let view = null
             if (row.status) view = controllers.switch(row.status)
@@ -68,7 +70,7 @@ const tableViewCellForRowAtIndexPath = (tableView: UITableView, indexPath: NSInd
         case cellViewType.inlineInput: {
             const cell = UITableViewCell.makeWithStyleReuseIdentifier(0, 'inlineInputCellID')
             cell.selectionStyle = 0
-            cell.textLabel.font = UIFont.systemFontOfSize(16)
+            cell.textLabel.font = UIFont.systemFontOfSize(15)
             cell.textLabel.textColor = self.textColor
             cell.textLabel.text = row.label
             let view = null

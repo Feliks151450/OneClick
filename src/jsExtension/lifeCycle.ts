@@ -1,7 +1,7 @@
 import settingViewControllerInst from "settingViewController/main"
 import { readProfile, saveProfile } from "utils/profile"
 import { getObjCClassDeclar, log, showHUD } from "utils/common"
-import { closePanel } from "./switchPanel"
+import { closePanel,openPanel } from "./switchPanel"
 import { eventCtrl } from "./handleReceivedEvent"
 import { $name } from "addon"
 
@@ -39,8 +39,10 @@ const sceneDidDisconnect = () => {
 // 打开笔记本
 const notebookWillOpen = (notebookid: string) => {
     log("打开笔记本", "lifeCycle")
+    openPanel()
     self.notebookId = notebookid
     eventCtrl.add()
+
 }
 
 // 关闭笔记本

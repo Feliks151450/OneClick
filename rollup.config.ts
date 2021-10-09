@@ -8,7 +8,7 @@ import json from "@rollup/plugin-json"
 import mnaddon from './mnaddon.json'
 
 // 修改为你电脑的用户名
-const userName = "ourongxing"
+const userName = "linlifei"
 
 // 判断是否为开发环境
 const isProd = () => process.env.NODE_ENV === 'production'
