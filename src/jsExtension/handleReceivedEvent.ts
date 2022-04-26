@@ -34,13 +34,13 @@ const onButtonClick: eventHandler = ({ userInfo }) => {
 
 const onSwitchChange: eventHandler = ({ userInfo }) => {
   profile[userInfo.key] = userInfo.status
-  // switch (userInfo.key) {
-  //   case "rightMode":
+  switch (userInfo.key) {
+    case "rightMode":
       layoutViewController()
-  //     break
-  //   case "copyMode":
-  //     showHUD("切换到 Copy 模式")
-  // }
+      break
+    case "copyMode":
+      showHUD("切换到 Copy 模式")
+  }
 }
 
 const onInputOver: eventHandler = ({ userInfo }) => {
@@ -53,16 +53,39 @@ const onInputOver: eventHandler = ({ userInfo }) => {
 // 选择文本
 const onPopupMenuOnSelection: eventHandler = ({ userInfo }) => {
   log("选中了文字", "action")
-  //选中后复制到特定剪贴板
   const text = userInfo.documentController.selectionText
-  const location:string = userInfo.winRect
-  const str = location.split(",")
+
+
+  // const arrow:boolean = userInfo.arrow
+
+  // if(arrow){
+  // showHUD("123")
+  // }else{
+  // showHUD("456")
+  // }
+  // showHUD(String(arrow))
+
   // showHUD(str[0].substr(2,20))
-  const strLength = str[1].length
+
   // showHUD(str[1].substr(0,strLength-1))
   // showHUD(location.substr(2,3)+","+location.substr(21,4))
-  profile.locationX = Number(str[0].substr(2,20))
-  profile.locationY = Number(str[1].substr(0,strLength-1))
+  if(profile.smartLocationOn){
+    const location:string = userInfo.winRect
+    const str = location.split(",")
+    const strLength = str[1].length
+    profile.locationX = Number(str[0].substr(2,18))
+    // profile.locationY = Number(str[1].substr(0,strLength-1))//-370
+    profile.locationY = Number(str[1].substr(0,strLength-1))-200
+    profile.arrow = userInfo.arrow
+    // showHUD("纵坐标为"+str[1].substr(0,strLength-1))
+    // let os = Application.sharedInstance().osType
+    // if(os == 0){profile.locationY = profile.locationY-300}
+    // profile.adjust = profile.locationY-300
+  }
+
+  // self.studyController.refreshAddonCommands()
+
+
   // var pasteBoard = UIPasteboard.generalPasteboard()
   // var pasteBoard = UIPasteboard.pasteboardWithUniqueName()
   // const text_old = pasteBoard.string
@@ -75,11 +98,11 @@ const onPopupMenuOnSelection: eventHandler = ({ userInfo }) => {
   // }
   profile.textSelected = text
   // 选中文字不会触发矫正，所以可能是乱码
-  if (profile.on && profile.selectTextOn) {
-    if (text) copySearch({
-      text
-    })
-  }
+  // if (profile.on && profile.selectTextOn) {
+  //   if (text) copySearch({
+  //     text
+  //   })
+  // }
 }
 
 let isClickCard = false
@@ -116,7 +139,18 @@ const onPopupMenuOnNote: eventHandler = ({ userInfo }) => {
   //   note: userInfo.note,
   // })
   const note = <MbBookNote>userInfo.note
-  profile.noteId = note.noteId
+  profile.noteId = String(note.noteId)
+  if(profile.smartLocationOn){
+    const location:string = userInfo.winRect
+    profile.arrow = userInfo.arrow
+    const str = location.split(",")
+    const strLength = str[1].length
+    profile.locationX = Number(str[0].substr(2,18))
+    profile.locationY = Number(str[1].substr(0,strLength-1))-120
+    let os = Application.sharedInstance().osType
+    if(os == 0){profile.locationY = profile.locationY-10}
+    // profile.adjust = profile.locationY-50
+  }
   // showHUD(note.noteId)
   // const test:string = note.noteId
   // RefreshAfterDBChange()

@@ -1,12 +1,17 @@
 import { postNotification } from "./common"
 import { showHUD } from "utils/common"
+import { profile } from "profile"
 /**
  * 获取选中的卡片
  */
-const getSelectNodes = (): MbBookNote[] => {
-  const MindMapNodes: any[] = self.studyController.notebookController.mindmapView.selViewLst
-  if (MindMapNodes) return MindMapNodes.map(item => item.note.note)
-  else return []
+const getSelectNodes = (noteId:string): MbBookNote[] => {
+  if(profile.windowMode == 0){
+    const note = getNoteById(noteId)
+    return [note]
+  }else{
+    const MindMapNodes: any[] = self.studyController.notebookController.mindmapView.selViewLst
+    return MindMapNodes.map(item => item.note.note)
+  }
 }
 /**
  * 获取选中的文字

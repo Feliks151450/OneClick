@@ -1,34 +1,63 @@
-import { dataSource } from "addon";
+import { dataSource, dataSource0 } from "addon";
+import { showHUD } from "utils/common";
+import { profile } from "profile"
+import { isOCNull } from "utils/common";
 
 const indexPath2tag = (indexPath: NSIndexPath): number => {
     return indexPath.section * 100 + indexPath.row + 999
 }
 
 const numberOfSectionsInTableView = (tableView: UITableView) => {
-    return dataSource.length
+    if(profile.newPage){
+        return dataSource0.length//分区数
+    }else{
+        return dataSource.length//分区数
+    }
+    
 }
 
 const tableViewNumberOfRowsInSection = (tableView: UITableView, section: number) => {
-    return dataSource[section].rows.length
+    if(profile.newPage){
+        return dataSource0[section].rows.length//每个分区多少行
+    }else{
+        return dataSource[section].rows.length//每个分区多少行
+    }
+    
 }
 
 const tableViewTitleForHeaderInSection = (tableView: UITableView, section: number) => {
-    return dataSource[section].header
+    if(profile.newPage){
+        return dataSource0[section].header
+    }else{
+        return dataSource[section].header
+    }
+    
 }
 
 const tableViewHeightForRowAtIndexPath = (tableView: UITableView, indexPath: NSIndexPath) => {
-    const row = dataSource[indexPath.section].rows[indexPath.row]
+    if(profile.newPage){
+        const row = dataSource0[indexPath.section].rows[indexPath.row]
+    }else{
+        const row = dataSource[indexPath.section].rows[indexPath.row]
+    }
+    
+    
     if (row.key == "space") return 300
     else if (row.type === cellViewType.plainText) {
         let num = row.label!.length - row.label!.replace(/[\r\n]/g, '').length
-        return 30 + num * 15
+        return 30 + num * 10
     } else return 40
 }
-
 const tableViewCellForRowAtIndexPath = (tableView: UITableView, indexPath: NSIndexPath) => {
-    const row = dataSource[indexPath.section].rows[indexPath.row]
+    if(profile.newPage){
+        const row = dataSource0[indexPath.section].rows[indexPath.row]
+    }else{
+        const row = dataSource[indexPath.section].rows[indexPath.row]
+    }
+    // const row = dataSource[indexPath.section].rows[indexPath.row]//哪个分区哪一行
     switch (row.type) {
         case cellViewType.plainText: {
+        //复用？
             const cell = UITableViewCell.makeWithStyleReuseIdentifier(0, 'PlainTextCellID')
             cell.selectionStyle = 0
             cell.textLabel.opaque = false
@@ -48,6 +77,19 @@ const tableViewCellForRowAtIndexPath = (tableView: UITableView, indexPath: NSInd
             cell.textLabel.textAlignment = 0
             cell.selectionStyle = row.key == "space" ? 0 : 1
             cell.textLabel.text = row.label
+            const iconColor = Application.sharedInstance().currentTheme == "Gray" ? "light" : "dark"
+            // showHUD(profile.mainPath)
+            // let mainPath = `/Users/linlifei/Library/Containers/QReader.MarginStudyMac/Data/Library/MarginNote Extensions/marginnote.extension.oneClick`
+            const image = NSData.dataWithContentsOfFile(
+                profile.mainPath + `/icon/${row.key}.png`
+            )
+            // let mainPath = "123"
+
+            if (!isOCNull(image)){
+                // showHUD(mainPath)
+                cell.imageView.image = UIImage.imageWithDataScale(image, 2)
+            }
+            
             return cell
         }
         case cellViewType.switch: {

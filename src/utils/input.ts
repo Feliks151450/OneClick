@@ -7,6 +7,8 @@ declare interface ReplaceParam {
 /**
  * 解析自定义输入为 replace 的参数
  */
+const reverseEscape = (text: string) => JSON.parse(`{"key": ${text}}`).key
+
 const string2ReplaceParam = (text: string): ReplaceParam[] => {
     const brackets = text.replace(/\)\s*;/g, ")delimiter")
         .split("delimiter").map(item => item.trim())
@@ -60,5 +62,6 @@ const checkInputCorrect = (text: string, key: string): boolean => {
 
 export {
     string2ReplaceParam,
-    checkInputCorrect
+    checkInputCorrect,
+    reverseEscape
 }

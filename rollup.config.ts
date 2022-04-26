@@ -36,7 +36,17 @@ export default {
     copy({
       assets: [
         "mnaddon.json",
-        ["assets/logo.png", "logo.png"]
+        ["assets/logo.png", "logo.png"],
+        ["assets/icon/compact.png", "icon/compact.png"],
+        ["assets/icon/copyAsMarkdownLink.png", "icon/copyAsMarkdownLink.png"],
+        ["assets/icon/copyExcerptPic.png", "icon/copyExcerptPic.png"],
+        ["assets/icon/LorR.png", "icon/LorR.png"],
+        ["assets/icon/moveDown.png", "icon/moveDown.png"],
+        ["assets/icon/moveUp.png", "icon/moveUp.png"],
+        ["assets/icon/padding.png", "icon/padding.png"],
+        ["assets/icon/searchInEudic.png", "icon/searchInEudic.png"],
+        ["assets/icon/switchTitleorExcerpt.png", "icon/switchTitleorExcerpt.png"],
+        ["assets/icon/smartLocationOn.png", "icon/smartLocationOn.png"]
       ]
     }),
     isProd() && strip({

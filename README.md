@@ -1,4 +1,5 @@
 > CopySearch 仅作为 MN 插件开发模板，功能更新不会作为重点。
+## 本插件基于CopySearch开发
 ## Development
 更多信息请查看 [开发文档](https://busiyi.notion.site/CopySearch-MN-856b316ec2854a70aa00e8bc1873892a)
 ## Contact Me

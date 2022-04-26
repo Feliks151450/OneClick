@@ -1,6 +1,7 @@
 import { openUrl, postNotification, showHUD } from "utils/common"
-import { dataSource, $name } from "addon"
+import { dataSource, dataSource0, $name } from "addon"
 import { checkInputCorrect } from "utils/input"
+import { profile } from "profile"
 
 const tag2indexPath = (tag: number): NSIndexPath => {
     return {
@@ -10,7 +11,12 @@ const tag2indexPath = (tag: number): NSIndexPath => {
 }
 
 const tableViewDidSelectRowAtIndexPath = (tableView: UITableView, indexPath: NSIndexPath) => {
-    const section = dataSource[indexPath.section]
+    if(profile.newPage){
+        const section = dataSource0[indexPath.section]
+    }else{
+        const section = dataSource[indexPath.section]
+    }
+
     const row = section.rows[indexPath.row]
     switch (row.type) {
         case cellViewType.plainText:
@@ -39,7 +45,13 @@ const tableViewDidSelectRowAtIndexPath = (tableView: UITableView, indexPath: NSI
 
 const textFieldShouldReturn = (sender: UITextField) => {
     const indexPath: NSIndexPath = tag2indexPath(sender.tag)
-    const section = dataSource[indexPath.section]
+    if(profile.newPage){
+        const section = dataSource0[indexPath.section]
+    }else{
+        const section = dataSource[indexPath.section]
+    }
+    
+    // const section = dataSource[indexPath.section]
     const row = section.rows[indexPath.row]
     let text = sender.text.trim()
     // 可以为空
@@ -57,7 +69,12 @@ const textFieldShouldReturn = (sender: UITextField) => {
 
 const switchChange = (sender: UISwitch) => {
     const indexPath: NSIndexPath = tag2indexPath(sender.tag)
-    const section = dataSource[indexPath.section]
+    if(profile.newPage){
+        const section = dataSource0[indexPath.section]
+    }else{
+        const section = dataSource[indexPath.section]
+    }
+    // const section = dataSource[indexPath.section]
     const row = section.rows[indexPath.row]
     row.status = sender.on
     postNotification(`${$name}SwitchChange`, {

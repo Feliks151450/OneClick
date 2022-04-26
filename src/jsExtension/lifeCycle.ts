@@ -1,9 +1,10 @@
 import settingViewControllerInst from "settingViewController/main"
 import { readProfile, saveProfile } from "utils/profile"
-import { getObjCClassDeclar, log, showHUD } from "utils/common"
-import { closePanel,openPanel } from "./switchPanel"
+import { delay, getObjCClassDeclar, log, showHUD } from "utils/common"
+import { closePanel,openPanel,switchPanel } from "./switchPanel"
 import { eventCtrl } from "./handleReceivedEvent"
 import { $name } from "addon"
+import { profile } from "profile"
 
 const SettingViewController = JSB.defineClass(getObjCClassDeclar("SettingViewController", "UITableViewController"), settingViewControllerInst)
 
@@ -19,12 +20,17 @@ const SettingViewController = JSB.defineClass(getObjCClassDeclar("SettingViewCon
  * 7. 关闭窗口
  */
 
-
+let mainPath = ""
+export const deliverMainPath = (_mainPath: string) => {
+  mainPath = _mainPath
+}
 // 打开窗口，可以用来初始化
 const sceneWillConnect = () => {
     log("打开窗口", "lifeCycle")
     self.studyController = Application.sharedInstance().studyController(self.window)
     self.settingViewController = new SettingViewController()
+    self.mainPath = mainPath
+    profile.mainPath = mainPath
     self.settingViewController.window = self.window
 }
 
@@ -39,9 +45,10 @@ const sceneDidDisconnect = () => {
 // 打开笔记本
 const notebookWillOpen = (notebookid: string) => {
     log("打开笔记本", "lifeCycle")
-    openPanel()
+
     self.notebookId = notebookid
     eventCtrl.add()
+
 
 }
 
@@ -60,6 +67,11 @@ const documentDidOpen = (docmd5: string) => {
     else {
         readProfile(docmd5, true)
     }
+    //冷启动可能会加载不出画面，在这里刷新一下
+    if(profile.on) {
+        profile.on = false
+        openPanel()
+    }
     log("打开文档", "lifeCycle")
     thisDocMd5 = docmd5
 }
@@ -69,7 +81,7 @@ export let thisDocMd5 = ""
 const documentWillClose = (docmd5: string) => {
     log("关闭文档", "lifeCycle")
     saveProfile(docmd5)
-    closePanel()
+    // closePanel()
 }
 
 const addonDidConnect = () => {
@@ -96,18 +108,32 @@ const applicationWillEnterForeground = () => {
     log("应用进入前台", "lifeCycle")
 }
 
+// export const clsMethons = {
+//     addonDidConnect,
+//     addonWillDisconnect,
+//     applicationDidEnterBackground,
+//     applicationWillEnterForeground
+// }
+
+// export const InstMethods = {
+//     sceneWillConnect,
+//     sceneDidDisconnect,
+//     notebookWillOpen,
+//     notebookWillClose,
+//     documentDidOpen,
+//     documentWillClose
+// }
 export const clsMethons = {
-    addonDidConnect,
-    addonWillDisconnect,
-    applicationDidEnterBackground,
-    applicationWillEnterForeground
+  addonWillDisconnect
 }
 
-export const InstMethods = {
-    sceneWillConnect,
-    sceneDidDisconnect,
-    notebookWillOpen,
-    notebookWillClose,
-    documentDidOpen,
-    documentWillClose
+export default {
+  sceneWillConnect,
+  sceneDidDisconnect,
+  applicationDidEnterBackground,
+  applicationWillEnterForeground,
+  notebookWillClose,
+  documentWillClose,
+  notebookWillOpen,
+  documentDidOpen
 }

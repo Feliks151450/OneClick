@@ -45,7 +45,7 @@ const postNotification = (key: string, userInfo: any) => {
   NSNotificationCenter.defaultCenter()
     .postNotificationNameObjectUserInfo(key, self, userInfo)
 }
-
+const isOCNull = (obj: any) => obj == NSNull.new()
 export {
   log,
   showHUD,
@@ -55,4 +55,5 @@ export {
   delayBreak,
   openUrl,
   postNotification,
+  isOCNull
 }
