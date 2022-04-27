@@ -18,11 +18,6 @@ const configs0: IConfig[] = [
     intro: "1.2 by Linlifei",
     link: "https://github.com/ourongxing/copysearch",
     settings: [
-      // {
-      //   key: "smartLocationOn",
-      //   type: cellViewType.button,
-      //   label: "位置跟随",
-      // },
       {
         key: "LorR",
         type: cellViewType.button,
