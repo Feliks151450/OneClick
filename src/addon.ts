@@ -15,14 +15,14 @@ import { closePanel, openPanel } from "jsExtension/switchPanel"
 const configs0: IConfig[] = [
 {
     name: "   设置",
-    intro: "1.0 by Linlifei",
+    intro: "1.2 by Linlifei",
     link: "https://github.com/ourongxing/copysearch",
     settings: [
-      {
-        key: "smartLocationOn",
-        type: cellViewType.button,
-        label: "位置跟随",
-      },
+      // {
+      //   key: "smartLocationOn",
+      //   type: cellViewType.button,
+      //   label: "位置跟随",
+      // },
       {
         key: "LorR",
         type: cellViewType.button,
@@ -83,14 +83,14 @@ const configs0: IConfig[] = [
 const configs1: IConfig[] = [
   {
     name: "设置",
-    intro: "1.0",
+    intro: "1.2",
     link: "https://github.com/ourongxing/copysearch",
     settings: [
-      {
-        key: "smartLocationOn",
-        type: cellViewType.button,
-        label: "  ",
-      },
+      // {
+      //   key: "smartLocationOn",
+      //   type: cellViewType.button,
+      //   label: "  ",
+      // },
       {
         key: "LorR",
         type: cellViewType.button,
@@ -422,12 +422,12 @@ const actions: IActionMethod = {
     showHUD("标题转换完成")
   },
   async copyAsMarkdownLink({ }) {
-    profile.click = profile.click+1
+    // profile.click = profile.click+1
     var pasteBoard = UIPasteboard.generalPasteboard()
     const nodes = getSelectNodes(profile.noteId)
     let text = ""
-    switch(profile.click){
-      case 1:{
+    // switch(profile.click){
+    //   case 1:{
         for (const note of nodes) {
         var noteid = note.noteId
         let noteTitle = note.noteTitle
@@ -435,30 +435,30 @@ const actions: IActionMethod = {
         text = text+'['+noteTitle+'](marginnote3app://note/'+noteid+')'+'\n'
         }
         showHUD("MDLink已复制")
-        break
-      }case 2:{
-        for (const note of nodes) {
-        var noteid = note.noteId
-        let noteTitle = note.noteTitle
-        noteTitle = noteTitle?noteTitle:"noTitle"
-        text = text+"marginnote3app://note/"+noteid+'\n'
-        }
-        showHUD("已修改为纯链接")
-        break
-      }
-    }
+        // break
+      // }case 2:{
+      //   for (const note of nodes) {
+      //   var noteid = note.noteId
+      //   let noteTitle = note.noteTitle
+      //   noteTitle = noteTitle?noteTitle:"noTitle"
+      //   text = text+"marginnote3app://note/"+noteid+'\n'
+      //   }
+      //   showHUD("已修改为纯链接")
+      //   break
+      // }
+    // }
     pasteBoard.string = text
-    const success = await delay(0.5)
-    profile.click = 0
+    // const success = await delay(0.5)
+    // profile.click = 0
   },
 
 
   async copyExcerptPic({ }) {
-    profile.click = profile.click+1
+    // profile.click = profile.click+1
     var pasteBoard = UIPasteboard.generalPasteboard()    
     const nodes = getSelectNodes(profile.noteId)
-    switch(profile.click){
-      case 1:{
+    // switch(profile.click){
+      // case 1:{
         let text_0 = ""
         for (const note of nodes) {
         let pic = note.excerptPic
@@ -477,21 +477,21 @@ const actions: IActionMethod = {
           text_0 = ""
         }
         showHUD("摘录已复制")
-        break
-      }case 2:{
-        let text_title = ""
-        for (const note of nodes) {
-        let noteTitle = note.noteTitle
-        if(noteTitle) text_title = text_title+noteTitle+'\n'
-        }
-        pasteBoard.string = text_title
-        showHUD("标题已复制")
-        break
-      }
-    }
+        // break
+      // }case 2:{
+      //   let text_title = ""
+      //   for (const note of nodes) {
+      //   let noteTitle = note.noteTitle
+      //   if(noteTitle) text_title = text_title+noteTitle+'\n'
+      //   }
+      //   pasteBoard.string = text_title
+      //   showHUD("标题已复制")
+      //   break
+      // }
+    // }
 
-    const success = await delay(0.5)
-    profile.click = 0
+    // const success = await delay(0.5)
+    // profile.click = 0
     // let note = getNoteById(profile.noteId)
     // let pic = note.excerptPic
     // let text = note.excerptText

@@ -2,7 +2,6 @@ const profileType = {
     on: true,
     locationMode: 11,//10为左侧，11为中间，12为右侧
     windowMode: 0,//0为阅读全屏，1为分屏，2为脑图全屏
-    smartLocationOn: true,
     locationX:0.,
     locationY:200.,
     selectTextOn: false,

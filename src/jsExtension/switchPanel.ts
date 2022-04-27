@@ -10,6 +10,7 @@ export const layoutViewController = () => {
     let studyFrame = self.studyController.view.bounds
     let readerFrame = self.studyController.readerController.view.frame
     let hidden = self.studyController.readerController.view.hidden//true代表脑图全屏
+    let rightMode = self.studyController.rightMapMode
     let fullWindow = readerFrame.width == studyFrame.width
     if(hidden){
         profile.windowMode = 2//阅读窗口被隐藏，即脑图全屏
@@ -30,21 +31,9 @@ export const layoutViewController = () => {
     // showHUD(self.mainPath)
     width = Application.sharedInstance().osType == 0 ? width-20 : width-15
     let adjustx = Application.sharedInstance().osType == 0 ? 27 : 27
-    
-    if(profile.smartLocationOn){
-        if(hidden || fullWindow){
-            profile.locationMode = profile.locationX > studyFrame.width/2.?12:10
-        }else if(profile.locationX > readerFrame.width){
-            profile.locationMode = profile.locationX > (0.5*readerFrame.width+0.5*studyFrame.width) ? 12 : 11
-        }else{
-            profile.locationMode = profile.locationX > 0.5*readerFrame.width ? 11 : 10
-        }
-        // profile.adjust = profile.locationX > frame.width/2.?profile.adjust:profile.adjust+10
-    }else{
-        if(profile.locationMode == 11 && (fullWindow || hidden)){
+    if(profile.locationMode == 11 && (fullWindow || hidden)){
             profile.locationMode = 12
         }
-    }
     let y_arrow = profile.arrow!=0?(profile.arrow-1.5)*250:100
     let y = profile.locationY+y_arrow//+profile.adjust
 
@@ -57,6 +46,7 @@ export const layoutViewController = () => {
     y = y+height>studyFrame.height?studyFrame.height-height:y
 
     let padding = profile.padding?55:0
+    if(rightMode){
     switch(profile.locationMode){
         case 10: {
             self.settingViewController.view.frame = { x: padding-adjustx+25, y: y, width: width, height: height }
@@ -68,6 +58,22 @@ export const layoutViewController = () => {
             self.settingViewController.view.frame = { x: studyFrame.width - width - padding+adjustx-25 , y: y, width: width, height: height }
             break
         }
+    }
+    }else{
+    switch(profile.locationMode){
+        case 10: {
+            self.settingViewController.view.frame = { x: padding-adjustx+25, y: y, width: width, height: height }
+            break
+        }case 11: {
+            self.settingViewController.view.frame = { x: studyFrame.width-readerFrame.width - width +adjustx , y: y, width: width, height: height }
+            break
+        }case 12: {
+            self.settingViewController.view.frame = { x: studyFrame.width - width - padding+adjustx-25 , y: y, width: width, height: height }
+            break
+        }
+    }
+    
+    
     }
 }
 // //大面板
